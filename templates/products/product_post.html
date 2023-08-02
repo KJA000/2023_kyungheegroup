@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+     <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>메인 페이지</title>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../../../static/products/styles.css" rel="stylesheet" />
+</head>
+<body>    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="/">Start Bootstrap</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/company/">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/voc/">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/products/">Services</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/users/mypage/">환영합니다, {{ user.email }}님</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="/users/">login/sign up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    <h1>상품 등록</h1>
+
+    <form method="post" enctype="multipart/form-data">  <!-- Add enctype for file upload -->
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" name="title" required>
+        <br>
+        <label for="content">Content:</label>
+        <textarea name="content" required></textarea>
+        <br>
+        <label for="popularity">Popularity:</label>
+        <input type="number" name="popularity" required>
+        <br>
+        <label for="image">Image:</label>
+        <input type="file" name="image" accept="image/*">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <a href="{% url 'products' %}">Back to Product List</a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+     <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>메인 페이지</title>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../static/styles.css" rel="stylesheet" />
+</head>
+<body>    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="/">Start Bootstrap</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/company/">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/voc/">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/products/">Services</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/users/mypage/">환영합니다, {{ user.username }}님</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="/users/">login/sign up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+<h1>회사소개 페이지입니다.</h1>
+</body>
+</html>

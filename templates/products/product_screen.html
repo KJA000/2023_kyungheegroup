@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+     <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Small Business - Start Bootstrap Template</title>
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../static/styles.css" rel="stylesheet" />
+    <style>
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .product {
+            width: 300px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .product img {
+            max-width: 200px;
+            margin: 10px auto;
+        }
+        .product h3 {
+            margin-bottom: 5px;
+        }
+        .product h5 {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <a class="navbar-brand" href="/">Start Bootstrap</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/company/">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/voc/">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/products/">Services</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/users/mypage/">환영합니다, {{ user.username }}님</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="/users/">login/sign up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    <a href="{% url 'product-post' %}">Add New Product</a>
+<div class="row gx-4 gx-lg-5 align-items-center my-5">
+                <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
+                <div class="col-lg-5">
+                    <h1 class="font-weight-light">Business Name or Tagline</h1>
+                    <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
+                    <a class="btn btn-primary" href="#!">Call to Action!</a>
+                </div>
+            </div>
+            <!-- Call to Action-->
+            <div class="card text-white bg-secondary my-5 py-4 text-center">
+                <div class="card-body"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
+            </div>
+
+    <h1>Most Popular Products</h1>
+    <div class="products-container">
+        {% if popular_products %}
+            {% for content in popular_products|slice:":3"  %}
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                    <h2 class="card-title">타이틀 : {{ content.title }}</h2>
+                    <p class="card-text">내용 : {{ content.content }}</p>
+                     <p class="card-text">인기도 : {{content.popularity}}</p>
+                     <p class="card-text">등록 시기 : {{content.pub_date}}</p>
+                    {% if content.image %}
+                        <img src="{{ content.image.url }}" alt="{{ content.title }}">
+                    {% endif %}
+                    <form method="post" action="{% url 'product-delete' product_id=content.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete">
+                    </form>
+                 </div>
+                        <div class="card-footer"><a href="{% url 'product-detail' product_id=content.id %}">>More Info</a></div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No popular products found.</p>
+        {% endif %}
+    </div>
+
+    <h1>New Products</h1>
+    <div class="products-container">
+        {% if new_products %}
+            {% for content in new_products|slice:":3"  %}
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                    <h2 class="card-title">타이틀 : {{ content.title }}</h2>
+                    <p class="card-text">내용 : {{ content.content }}</p>
+                     <p class="card-text">인기도 : {{content.popularity}}</p>
+                     <p class="card-text">등록 시기 : {{content.pub_date}}</p>
+                    {% if content.image %}
+                        <img src="{{ content.image.url }}" alt="{{ content.title }}">
+                    {% endif %}
+                    <form method="post" action="{% url 'product-delete' product_id=content.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete">
+                    </form>
+                 </div>
+                        <div class="card-footer"><a href="{% url 'product-detail' product_id=content.id %}">>More Info</a></div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No new products found.</p>
+        {% endif %}
+    </div>
+        <footer class="py-5 bg-dark">
+            <div class="container px-4 px-lg-5"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+</body>
+</html>
