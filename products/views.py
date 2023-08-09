@@ -9,7 +9,9 @@ def index(request):
     context = {
         'popular_products': popular_products,
         'new_products': new_products,
+        'active_page' : 'product',
     }
+
     return render(request, 'products/product_screen.html', context)
 
 def post_product(request):

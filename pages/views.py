@@ -1,6 +1,8 @@
 from django.shortcuts import render
 
 def mainpage(request):
- return render(request, 'pages/mainpage.html')
+ context = {'active_page': 'home'}
+ return render(request, 'pages/mainpage.html',context)
 def company(request):
- return render(request, 'pages/company_info.html')
+ context = {'active_page': 'company'}
+ return render(request, 'pages/company_info.html',context)

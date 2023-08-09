@@ -13,8 +13,10 @@ def index(request):
         new_product.save()
 
         return redirect('post_voc')
+    context = {'active_page': 'voc'}
 
-    return render(request, 'voc/voc.html')
+    return render(request, 'voc/voc.html',context)
 
 def post_voc(request):
-    return render(request, 'voc/voc_post.html')
+    context = {'active_page': 'voc'}
+    return render(request, 'voc/voc_post.html',context)

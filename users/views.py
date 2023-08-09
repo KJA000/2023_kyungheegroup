@@ -26,7 +26,8 @@ def signup(request):
     return render(request, 'users/signup.html')
 
 def mypage(request):
-    return render(request, 'users/mypage.html')
+    context = {'active_page': 'mypage',}
+    return render(request, 'users/mypage.html',context)
 
 
 def check_username_availability(request):
