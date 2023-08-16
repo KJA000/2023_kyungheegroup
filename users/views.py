@@ -3,6 +3,8 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
+from .forms import UserProfileUpdateForm
+
 
 def signup(request):
     if request.method == 'POST':
@@ -26,8 +28,12 @@ def signup(request):
     return render(request, 'users/signup.html')
 
 def mypage(request):
-    context = {'active_page': 'mypage',}
-    return render(request, 'users/mypage.html',context)
+    context = {
+        'active_page': 'mypage',
+        'email': request.user.email,
+        'username': request.user.username,
+    }
+    return render(request, 'users/mypage.html', context)
 
 
 def check_username_availability(request):
@@ -35,4 +41,19 @@ def check_username_availability(request):
         username = request.GET.get('username', '')
         is_taken = User.objects.filter(username=username).exists()
         return JsonResponse({'is_taken': is_taken})
+
+def update_profile(request):
+    if request.method == 'POST':
+        form = UserProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('mypage')  
+    else:
+        form = UserProfileUpdateForm(instance=request.user)
+    
+    context = {
+        'form': form,
+        'active_page': 'mypage',
+    }
+    return render(request, 'users/profile_edit.html', context)  # Note the change in the template name
 
